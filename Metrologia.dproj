@@ -99,8 +99,15 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="DBConst.pas"/>
-        <None Include="sqlite3.dll"/>
+        <DCCReference Include="..\SMBComponents\SMBLabeledEdit\SMBLabeledEdit.pas"/>
         <None Include="ModelSupport_Metrologia\default.txaPackage"/>
+        <None Include="ModelSupport_Metrologia\default.txvpck"/>
+        <None Include="ModelSupport_Metrologia\Connection\default.txvpck"/>
+        <None Include="ModelSupport_Metrologia\main\default.txvpck"/>
+        <None Include="ModelSupport_Metrologia\Metrologia\default.txvpck"/>
+        <None Include="ModelSupport_Metrologia\SMBLabeledEdit\default.txvpck"/>
+        <None Include="ModelSupport_Metrologia\DBConst\default.txvpck"/>
+        <None Include="ModelSupport_Metrologia\InputMinMaxGasFlow\default.txvpck"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -166,7 +173,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
-            <ModelSupport>True</ModelSupport>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

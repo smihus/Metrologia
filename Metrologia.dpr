@@ -5,7 +5,8 @@ uses
   main in 'main.pas' {Form1},
   Connection in 'Connection.pas',
   InputMinMaxGasFlow in 'InputMinMaxGasFlow.pas' {fmInputMinMaxGasFlowValue},
-  DBConst in 'DBConst.pas';
+  DBConst in 'DBConst.pas',
+  SMBLabeledEdit in '..\SMBComponents\SMBLabeledEdit\SMBLabeledEdit.pas';
 
 {$R *.res}
 
