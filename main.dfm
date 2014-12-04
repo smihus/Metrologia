@@ -26,7 +26,7 @@ object fmMain: TfmMain
     Top = 0
     Width = 734
     Height = 612
-    ActivePage = tsReferencesData
+    ActivePage = tsAssessmentMeasurementTools
     Align = alClient
     TabOrder = 0
     OnChange = pcMainChange

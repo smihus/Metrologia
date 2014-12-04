@@ -554,11 +554,18 @@ begin
   end;
 
   if HasError then
-  begin
-    MessageDlg(ErrorMessage, mtWarning, [mbOK], 0);
-    FirstFieldWithError.FocusControl;
-    Abort();
-  end;
+    if MessageDlg('Вы не заполнили обязательные параметры СИ. Отменить создание СИ?',
+      mtWarning, mbYesNo, 0, mbNo) = mrYes then
+    begin
+      qryCounters.Delete;
+      Abort;
+    end
+    else
+    begin
+      MessageDlg(ErrorMessage, mtWarning, [mbOK], 0);
+      FirstFieldWithError.FocusControl;
+      Abort();
+    end;
 end;
 
 procedure TfmMain.qryCountersPostError(DataSet: TDataSet; E: EDatabaseError;
@@ -613,9 +620,7 @@ end;
 procedure TfmMain.qryGasFlowRatesCalcFields(DataSet: TDataSet);
 begin
   with qryCounters do
-  begin
-    DataSet.FieldValues['flowRatePercent'] := (DataSet.FieldValues['flowRate'] - FieldValues['minFlowRate'])/ (FieldValues['maxFlowRate'] - FieldValues['minFlowRate']) * 100;
-  end;
+    DataSet.FieldValues['flowRatePercent'] := DataSet.FieldValues['flowRate'] * 100 / FieldValues['maxFlowRate'];
 end;
 
 procedure TfmMain.qryGasFlowRatesPostError(DataSet: TDataSet; E: EDatabaseError;
@@ -678,18 +683,18 @@ begin
     begin
       bnCalculate.Caption     := 'Оценить СИ перепада давления';
       bnCalculate.OnClick     := AssessmentMT;
-      lP.Caption              := 'Абсолютное давление газа, МПа     Pmax';
+      lP.Caption              := 'Текущее абс. давление газа, МПа    Pтек.абс.';
       ePmin.Visible           := False;
       ePmax.Left              := 3;
       ePmax.Width             := 182;
-      lQp.Caption             := 'Расход газа в раб. условиях, м3/ч   Qp.max';
+      lQp.Caption             := 'Расход газа в раб. условиях, м3/ч   Qp';
       eQpmin.Visible          := False;
       eQpmax.Left             := 3;
       eQpmax.Width            := 182;
       eCurrentDeltaP.Visible  := True;
       lCurrentDeltaP.Visible  := True;
       lULM.Visible            := True;
-      cbULM.Visible            := True;
+      cbULM.Visible           := True;
     end
     else
     begin
@@ -797,12 +802,13 @@ end;
 procedure TfmMain.AssessmentMT(Sender: TObject);
 var
   DeltaPdop,
-  DeltaPpmin, DeltaPpmax,
-  DeltaPraschmin, DeltaPraschmax,
-  DeltaPdopmin, DeltaPdopmax,
+  DeltaPpmax,
+  DeltaPraschmax,
+  DeltaPdopmax,
   DifPercent,
-  LLM, ULM            : Extended;
-  idCounter           : Integer;
+  LLM             : Extended;
+  idCounter       : Integer;
+  DifStr          : String;
 begin
   idCounter   := lcbCounterSertificateNumber.KeyValue;
 
@@ -830,7 +836,7 @@ begin
 
     DeltaPpmax      := GetDeltaPp(idCounter, FQpmax);
     if DeltaPpmax >= 0 then
-      Append('Перепад давления на счетчике при Q р.max: '
+      Append('Перепад давления на счетчике при Qр: '
         + FloatToStrF(DeltaPpmax, ffFixed, 10, 2) + ' Па.')
     else if (DeltaPpmax = -1) then
       Append('Перепад давления на счетчике при Q р.max: '
@@ -869,15 +875,21 @@ begin
     Append('');
     Append('Выводы');
     Append('-------------------------');
-    Append('Перепад давления на счетчике превышает допустимый перепад на '
-      + FloatToStrF(DifPercent, ffFixed, 10, 2) + ' %.');
+    if DifPercent > 0 then
+      DifStr := 'превышает допустимый перепад на '
+    else if DifPercent < 0 then
+      DifStr := 'меньше допустимого перепада на '
+    else
+      DifStr := 'равен допустимому перепаду ';
+    Append('Перепад давления на счетчике ' + DifStr +
+      (FloatToStrF(Abs(DifPercent), ffFixed, 10, 2) + ' %.'));
 
-    if (DifPercent < 20) then
+    if (DifPercent <= 20) then
       Append('Следовательно, счетчик работоспособен.')
-    else if (DifPercent >= 20) and (DifPercent < 50) then
+    else if (DifPercent > 20) and (DifPercent <= 50) then
       Append('Следовательно, необходимо обратить на этот счетчик особое внимание, '
         + 'т.к. возможно, что скоро он будет нуждаться в обслуживании или ремонте.')
-    else if (DifPercent >= 50) and (DifPercent < 80) then
+    else if (DifPercent > 50) and (DifPercent <= 80) then
       Append('Следовательно, необходимо провести анализ предыдущих проверок '
         + 'перепада давления на этом счетчике или изучить данные архива. Если '
         + 'при предыдущих проверках или в последних записях архива измеренное '
@@ -977,8 +989,6 @@ begin
       + FloatToStrF(DeltaPraschmin, ffFixed, 10, 2) + ' Па.');
     Append('Минимальное допустимое значение перепада давления: '
       + FloatToStrF(DeltaPdopmin, ffFixed, 10, 2) + ' Па.');
-    Append('Перепад давления на счетчике при Q р.max: '
-      + FloatToStrF(DeltaPpmax, ffFixed, 10, 2) + ' Па.');
     Append('Максимальное расчетное значение перепада давления: '
       + FloatToStrF(DeltaPraschmax, ffFixed, 10, 2) + ' Па.');
     Append('Максимальное допустимое значение перепада давления: '
