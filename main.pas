@@ -645,25 +645,29 @@ var
 begin
   MinReached    := False;
   Result        := '';
-  InverterCount := 0;
+  InverterCount := 1;
   AULM          := ULM;
 
   repeat
     LLM       := AccuracyClass * AULM / 0.2;
     KP        := (LLM - DeltaPdopmin) / LLM;
 
-    if MinReached or ((LLM < DeltaPdopmin) and (KP <= 0.75)) then
-    begin
-      Result := Result + 'Необходимость в дополнительных преобразователях перепада давления отсутствует.';
-      Exit;
-    end
+    Result := Result + 'Для контроля технического состояния счетчика газа ' +
+        lcbCounterName.Text + ' G' + lcbCounterG.Text + ' Ду' +
+        lcbCounterDu.Text + ' необходимо: ' + sLineBreak;
+    Result := Result + '1) Диф. манометр к.т. ' +
+      FloatToStrF(AccuracyClass * 100, ffFixed, 10, 2) + ' и ВПИ ' +
+      FloatToStrF(ULM/1000, ffFixed, 10, 1) + ' КПа' + sLineBreak;
+
+    if MinReached or (LLM < DeltaPdopmin) or (KP <= 0.75) then
+      Exit
     else
     begin
       InverterCount := InverterCount + 1;
       AULM          := GetMaxDefaultValueULM(1.05 * LLM);
-      Result        := Result + IntToStr(InverterCount) + ') Необходим '
-        + 'дифференциальный манометр к.т. ' + FloatToStrF(AccuracyClass * 100, ffFixed, 10, 2)
-        + ' и верхним пределом измерения ' + FloatToStrF(AULM/1000, ffFixed, 10, 2) + ' кПа.' + sLineBreak; // Переводим AULM (ВПИ) в кПа
+      Result        := Result + IntToStr(InverterCount) + ') ' +
+        'Диф. манометр к.т. ' + FloatToStrF(AccuracyClass * 100, ffFixed, 10, 2) +
+        ' и ВПИ ' + FloatToStrF(AULM/1000, ffFixed, 10, 2) + ' КПа' + sLineBreak; // Переводим AULM (ВПИ) в кПа
 
       if AULM = 250 then
         MinReached := True;

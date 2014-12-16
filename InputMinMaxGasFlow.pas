@@ -35,7 +35,7 @@ var
   fmInputMinMaxGasFlowValue: TfmInputMinMaxGasFlowValue;
 
 implementation
-
+uses System.UITypes;
 {$R *.dfm}
 
 { TfmInputMinMaxGasFlowValue }
