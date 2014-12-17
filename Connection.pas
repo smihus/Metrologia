@@ -16,6 +16,7 @@ procedure MakeConnection(const Application: TApplication; var mainConnection: TA
 var
   AFileName: string;
   odOpenDB: TOpenDialog;
+  ErrorMsg: string;
 begin
   AFileName := ExtractFileDir(Application.ExeName) + '\' + DBName;
   odOpenDB := TOpenDialog.Create(nil);
@@ -52,9 +53,20 @@ begin
       'Jet OLEDB:Database Password=' + Password + ';';
     mainConnection.Connected := True;
   except
-    MessageDlg('Ошибка соединения с базой данных. Обратитесь к администратору', mtError, [mbOK], 0);
-    odOpenDB.Free;
-    Halt(1);
+    on E: Exception do
+    begin
+      ErrorMsg := E.Message;
+      if ErrorMsg = 'Ошибочный пароль' then
+        ErrorMsg := 'Ошибка соединения с базой данных!' + sLineBreak +
+          'Вы пытаетесь использовать старую версию базы данных.' + sLineBreak +
+          'Получите у администратора свежую версию базы данных.'
+      else
+        ErrorMsg := 'Ошибка соединения с базой данных! Обратитесь к администратору.';
+
+      MessageDlg(ErrorMsg, mtError, [mbOK], 0);
+      odOpenDB.Free;
+      Halt(1);
+    end;
   end;
   FLocalSettings['DBFilePath'] := AFileName;
 end;

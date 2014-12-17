@@ -57,9 +57,7 @@ type
     lcbCounterType: TDBLookupComboBox;
     lcbCounterG: TDBLookupComboBox;
     lcbCounterDu: TDBLookupComboBox;
-    lcbCounterSertificateNumber: TDBLookupComboBox;
     lCounterDu: TLabel;
-    lCounterSertificateNumber: TLabel;
     lCounterG: TLabel;
     lCounter: TLabel;
     gbxCounter: TGroupBox;
@@ -80,7 +78,6 @@ type
     qryCounterscounterName: TWideStringField;
     qryCountersG: TSmallintField;
     qryCountersDu: TSmallintField;
-    qryCountersSertificateNumber: TWideStringField;
     qryCounterTypes: TADOQuery;
     dsCounterTypes: TDataSource;
     qryCounterTypestypeName: TWideStringField;
@@ -118,7 +115,6 @@ type
     procedure qryCountersAfterEdit(DataSet: TDataSet);
     procedure lcbCounterTypeExit(Sender: TObject);
     procedure lcbCounterGExit(Sender: TObject);
-    procedure lcbCounterDuExit(Sender: TObject);
     procedure OnKeyPressFloat(Sender: TObject; var Key: Char);
     procedure SelectionMT(Sender: TObject);
     procedure AssessmentMT(Sender: TObject);
@@ -146,12 +142,10 @@ type
     qryCounterG: TADOQuery;
     qryCounterDu: TADOQuery;
     qryCounterName: TADOQuery;
-    qryCounterSertificateNumber: TADOQuery;
     dsCounterType: TDataSource;
     dsCounterG: TDataSource;
     dsCounterDu: TDataSource;
     dsCounterName: TDatasource;
-    dsCounterSertificateNumber: TDataSource;
     procedure InitQueryesAndLookupComboBoxes();
     function VerificateUserInput(CalculationType: String): Boolean;
     function GetDeltaPp(const idCounter: Integer; const Qp: Extended):Extended;
@@ -200,18 +194,11 @@ begin
   lcbCounterG.KeyField    := 'G';
 
   CreateADOQueryAndDataSource(Self, mainConnection,
-    'select distinct Du from Counters where typeName = :typeName '
+    'select distinct idCounter, Du from Counters where typeName = :typeName '
     + 'and counterName = :counterName and G = :G', qryCounterDu, dsCounterDu);
   lcbCounterDu.ListSource := dsCounterDu;
-  lcbCounterDu.KeyField   := 'Du';
-
-  CreateADOQueryAndDataSource(Self, mainConnection,
-    'select distinct idCounter, SertificateNumber from Counters '
-      + 'where typeName = :typeName and counterName = :counterName and G = :G and Du = :Du ',
-      qryCounterSertificateNumber, dsCounterSertificateNumber);
-  lcbCounterSertificateNumber.ListSource := dsCounterSertificateNumber;
-  lcbCounterSertificateNumber.ListField  := 'SertificateNumber';
-  lcbCounterSertificateNumber.KeyField   := 'idCounter';
+  lcbCounterDu.ListField  := 'Du';
+  lcbCounterDu.KeyField   := 'idCounter';
 
   lcbCounterTypeExit(Self);
 end;
@@ -254,22 +241,7 @@ begin
     Parameters.ParamValues['counterName'] := qryCounterName.FieldValues['counterName'];
     Parameters.ParamValues['G']           := lcbCounterG.KeyValue;
     Active                                := True;
-    lcbCounterDu.KeyValue                 := FieldValues['Du'];
-  end;
-  lcbCounterDuExit(Sender);
-end;
-
-procedure TfmMain.lcbCounterDuExit(Sender: TObject);
-begin
-  with qryCounterSertificateNumber do
-  begin
-    Active                                := False;
-    Parameters.ParamValues['typeName']    := qryCounterType.FieldValues['typeName'];
-    Parameters.ParamValues['G']           := qryCounterG.FieldValues['G'];
-    Parameters.ParamValues['Du']          := qryCounterDu.FieldValues['Du'];
-    Parameters.ParamValues['counterName'] := qryCounterName.FieldValues['counterName'];
-    Active                                := True;
-    lcbCounterSertificateNumber.KeyValue  := FieldValues['idCounter'];
+    lcbCounterDu.KeyValue                 := FieldValues['idCounter'];
   end;
 end;
 
@@ -414,17 +386,13 @@ end;
 
 procedure TfmMain.mainConnectionAfterConnect(Sender: TObject);
 begin
-  qryCounters.Active := True;
-  qryGasFlowRates.Active := True
+  qryCounters.Active      := True;
+  qryGasFlowRates.Active  := True
 end;
 
 procedure TfmMain.qryCountersAfterEdit(DataSet: TDataSet);
 begin
   IsEditedCounterRecord := True;
-  with qryCounters do
-  begin
-
-  end;
 end;
 
 procedure TfmMain.qryCountersAfterInsert(DataSet: TDataSet);
@@ -435,7 +403,6 @@ begin
     FieldValues['typeName']           := qryCounterTypes.FieldValues['typeName'];
     FieldValues['G']                  := 16;
     FieldValues['Du']                 := 50;
-    FieldValues['SertificateNumber']  := '';
     FieldByName('typeNameLookUp').FocusControl;
   end;
 end;
@@ -544,13 +511,6 @@ begin
       and not Assigned(FirstFieldWithError) then
         FirstFieldWithError := FieldByName('Du');
 
-    FieldValues['SertificateNumber'] := Trim(FieldValues['SertificateNumber']);
-    if not HasStrValue('Номер сертификата', FieldValues['SertificateNumber'], ErrorMessage) then
-    begin
-      HasError := True;
-      if not Assigned(FirstFieldWithError) then
-        FirstFieldWithError := FieldByName('SertificateNumber');
-    end;
   end;
 
   if HasError then
@@ -814,7 +774,7 @@ var
   idCounter       : Integer;
   DifStr          : String;
 begin
-  idCounter   := lcbCounterSertificateNumber.KeyValue;
+  idCounter   := lcbCounterDu.KeyValue;
 
   if not VerificateUserInput('AssessmentMT') then
     Exit;
@@ -922,7 +882,7 @@ var
   KP                  : Extended;
   idCounter           : Integer;
 begin
-  idCounter           := lcbCounterSertificateNumber.KeyValue;
+  idCounter           := lcbCounterDu.KeyValue;
 
   if not VerificateUserInput('SelectionMT') then
     Exit;

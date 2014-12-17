@@ -4,11 +4,11 @@ object fmMain: TfmMain
   Caption = 
     #1054#1094#1077#1085#1082#1072' '#1090#1077#1093'. '#1089#1086#1089#1090#1086#1103#1085#1080#1103' '#1087#1088#1080#1073#1086#1088#1072' '#1091#1095#1077#1090#1072' '#1080' '#1087#1086#1076#1073#1086#1088' '#1057#1048' '#1087#1077#1088#1077#1087#1072#1076#1072' '#1076#1072#1074#1083#1077#1085#1080 +
     #1103
-  ClientHeight = 612
-  ClientWidth = 734
+  ClientHeight = 577
+  ClientWidth = 634
   Color = clBtnFace
-  Constraints.MinHeight = 650
-  Constraints.MinWidth = 750
+  Constraints.MinHeight = 615
+  Constraints.MinWidth = 650
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -24,8 +24,8 @@ object fmMain: TfmMain
   object pcMain: TPageControl
     Left = 0
     Top = 0
-    Width = 734
-    Height = 612
+    Width = 634
+    Height = 577
     ActivePage = tsAssessmentMeasurementTools
     Align = alClient
     TabOrder = 0
@@ -36,7 +36,7 @@ object fmMain: TfmMain
         Left = 0
         Top = 0
         Width = 195
-        Height = 584
+        Height = 549
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
@@ -45,7 +45,7 @@ object fmMain: TfmMain
           Left = 3
           Top = 3
           Width = 189
-          Height = 217
+          Height = 182
           Align = alTop
           Caption = #1055#1088#1080#1073#1086#1088' '#1091#1095#1077#1090#1072
           TabOrder = 0
@@ -55,13 +55,6 @@ object fmMain: TfmMain
             Width = 166
             Height = 13
             Caption = #1044#1080#1072#1084#1077#1090#1088' '#1091#1089#1083#1086#1074#1085#1086#1075#1086' '#1087#1088#1086#1093#1086#1076#1072', '#1044#1091
-          end
-          object lCounterSertificateNumber: TLabel
-            Left = 3
-            Top = 177
-            Width = 101
-            Height = 13
-            Caption = #1053#1086#1084#1077#1088' '#1089#1077#1088#1090#1080#1092#1080#1082#1072#1090#1072
           end
           object lCounterG: TLabel
             Left = 3
@@ -91,14 +84,6 @@ object fmMain: TfmMain
             Width = 182
             Height = 21
             TabOrder = 3
-            OnExit = lcbCounterDuExit
-          end
-          object lcbCounterSertificateNumber: TDBLookupComboBox
-            Left = 3
-            Top = 190
-            Width = 182
-            Height = 21
-            TabOrder = 4
           end
           object lcbCounterType: TDBLookupComboBox
             Left = 3
@@ -128,7 +113,7 @@ object fmMain: TfmMain
         object gbxOperatingConditions: TGroupBox
           AlignWithMargins = True
           Left = 3
-          Top = 226
+          Top = 191
           Width = 189
           Height = 303
           Align = alTop
@@ -270,7 +255,7 @@ object fmMain: TfmMain
         object bnCalculate: TButton
           AlignWithMargins = True
           Left = 3
-          Top = 530
+          Top = 495
           Width = 189
           Height = 51
           Align = alBottom
@@ -285,8 +270,8 @@ object fmMain: TfmMain
         AlignWithMargins = True
         Left = 198
         Top = 3
-        Width = 525
-        Height = 578
+        Width = 425
+        Height = 543
         Align = alClient
         Caption = #1056#1072#1089#1095#1077#1090#1099
         TabOrder = 1
@@ -294,8 +279,8 @@ object fmMain: TfmMain
           AlignWithMargins = True
           Left = 5
           Top = 18
-          Width = 515
-          Height = 555
+          Width = 415
+          Height = 520
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
@@ -320,16 +305,16 @@ object fmMain: TfmMain
       object EvalutionOfTechConditionPanel: TPanel
         Left = 0
         Top = 0
-        Width = 726
-        Height = 584
+        Width = 626
+        Height = 549
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
         object LeftPanel: TPanel
           Left = 0
           Top = 0
-          Width = 425
-          Height = 584
+          Width = 329
+          Height = 549
           Align = alLeft
           BevelOuter = bvNone
           Caption = 'LeftPanel'
@@ -338,7 +323,7 @@ object fmMain: TfmMain
             AlignWithMargins = True
             Left = 5
             Top = 5
-            Width = 420
+            Width = 324
             Height = 20
             Margins.Left = 5
             Margins.Top = 5
@@ -358,8 +343,8 @@ object fmMain: TfmMain
           object grdCounters: TDBGrid
             Left = 0
             Top = 25
-            Width = 425
-            Height = 534
+            Width = 329
+            Height = 499
             Align = alClient
             Ctl3D = True
             DataSource = dsCounters
@@ -381,14 +366,14 @@ object fmMain: TfmMain
           end
           object pButtonsRDCounters: TPanel
             Left = 0
-            Top = 559
-            Width = 425
+            Top = 524
+            Width = 329
             Height = 25
             Align = alBottom
             BevelOuter = bvNone
             TabOrder = 1
             object bnSaveCounterRecord: TButton
-              Left = 350
+              Left = 254
               Top = 0
               Width = 75
               Height = 25
@@ -418,10 +403,10 @@ object fmMain: TfmMain
         end
         object RightPanel: TPanel
           AlignWithMargins = True
-          Left = 428
+          Left = 332
           Top = 0
-          Width = 298
-          Height = 584
+          Width = 294
+          Height = 549
           Margins.Top = 0
           Margins.Right = 0
           Margins.Bottom = 0
@@ -432,7 +417,7 @@ object fmMain: TfmMain
             AlignWithMargins = True
             Left = 5
             Top = 5
-            Width = 293
+            Width = 289
             Height = 20
             Margins.Left = 5
             Margins.Top = 5
@@ -452,8 +437,8 @@ object fmMain: TfmMain
           object grdGasFlowRates: TDBGrid
             Left = 0
             Top = 25
-            Width = 298
-            Height = 534
+            Width = 294
+            Height = 499
             Align = alClient
             DataSource = dsGasFlowRates
             PopupMenu = pmGasFlowRates
@@ -485,14 +470,14 @@ object fmMain: TfmMain
           end
           object pButtonsRDGasFlowRate: TPanel
             Left = 0
-            Top = 559
-            Width = 298
+            Top = 524
+            Width = 294
             Height = 25
             Align = alBottom
             BevelOuter = bvNone
             TabOrder = 1
             object bnSaveGasFlowRateRecord: TButton
-              Left = 223
+              Left = 219
               Top = 0
               Width = 75
               Height = 25
@@ -510,7 +495,7 @@ object fmMain: TfmMain
     Mode = cmShareDenyNone
     Provider = 'Microsoft.Jet.OLEDB.4.0'
     AfterConnect = mainConnectionAfterConnect
-    Left = 544
+    Left = 512
     Top = 400
   end
   object qryCounters: TADOQuery
@@ -529,7 +514,6 @@ object fmMain: TfmMain
       '  c.typeName,'
       '  c.G,'
       '  c.Du,'
-      '  c.SertificateNumber,'
       
         '  (select min(g.FlowRate) from GasFlowRates g where g.idCounter ' +
         '= c.idCounter) as minFlowRate,'
@@ -537,10 +521,8 @@ object fmMain: TfmMain
         '  (select max(g.FlowRate) from GasFlowRates g where g.idCounter ' +
         '= c.idCounter) as maxFlowRate'
       'from Counters c'
-      
-        'order by typeName asc, counterName asc, G asc, Du asc, Sertifica' +
-        'teNumber asc')
-    Left = 456
+      'order by typeName asc, counterName asc, G asc, Du asc')
+    Left = 424
     Top = 408
     object qryCountersidCounter: TAutoIncField
       AutoGenerateValue = arAutoInc
@@ -582,11 +564,6 @@ object fmMain: TfmMain
       DisplayWidth = 5
       FieldName = 'Du'
     end
-    object qryCountersSertificateNumber: TWideStringField
-      DisplayLabel = #8470' '#1089#1077#1088#1090#1080#1092#1080#1082#1072#1090#1072
-      DisplayWidth = 15
-      FieldName = 'SertificateNumber'
-    end
     object qryCountersminFlowRate: TBCDField
       FieldName = 'minFlowRate'
       Visible = False
@@ -600,12 +577,12 @@ object fmMain: TfmMain
   end
   object dsCounters: TDataSource
     DataSet = qryCounters
-    Left = 456
+    Left = 424
     Top = 352
   end
   object dsGasFlowRates: TDataSource
     DataSet = qryGasFlowRates
-    Left = 600
+    Left = 568
     Top = 288
   end
   object qryGasFlowRates: TADOQuery
@@ -630,7 +607,7 @@ object fmMain: TfmMain
       'from GasFlowRates'
       'where idCounter = :idCounter'
       'order by flowRate asc')
-    Left = 600
+    Left = 568
     Top = 240
     object qryGasFlowRatesidCounter: TIntegerField
       FieldName = 'idCounter'
@@ -659,7 +636,7 @@ object fmMain: TfmMain
     end
   end
   object ActionList: TActionList
-    Left = 600
+    Left = 568
     Top = 448
     object aCreateNewRecordCounter: TAction
       Category = 'ReferenceData'
@@ -691,11 +668,11 @@ object fmMain: TfmMain
     Filter = #1041#1072#1079#1099' '#1076#1072#1085#1085#1099#1093' Microsoft Access|*.mdb'
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
     Title = #1059#1082#1072#1078#1080#1090#1077' '#1087#1091#1090#1100' '#1082' '#1073#1072#1079#1077
-    Left = 544
+    Left = 512
     Top = 448
   end
   object pmCounters: TPopupMenu
-    Left = 600
+    Left = 568
     Top = 360
     object pmiAddCounterRecord: TMenuItem
       Action = aCreateNewRecordCounter
@@ -711,7 +688,7 @@ object fmMain: TfmMain
     end
   end
   object pmGasFlowRates: TPopupMenu
-    Left = 600
+    Left = 568
     Top = 400
     object pmiSaveGasFlowRateRecord: TMenuItem
       Action = aSaveEditedGasFlowRate
@@ -725,7 +702,7 @@ object fmMain: TfmMain
       'select typeName'
       'from CounterTypes'
       'order by typeName asc')
-    Left = 456
+    Left = 424
     Top = 456
     object qryCounterTypestypeName: TWideStringField
       FieldName = 'typeName'
@@ -734,7 +711,7 @@ object fmMain: TfmMain
   end
   object dsCounterTypes: TDataSource
     DataSet = qryCounterTypes
-    Left = 456
+    Left = 424
     Top = 296
   end
 end
