@@ -98,6 +98,7 @@ type
     lULM: TLabel;
     cbULM: TComboBox;
     cbAccuracyClass: TComboBox;
+    tsInstruction: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure mainConnectionAfterConnect(Sender: TObject);
     procedure qryCountersAfterPost(DataSet: TDataSet);
@@ -146,6 +147,7 @@ type
     dsCounterG: TDataSource;
     dsCounterDu: TDataSource;
     dsCounterName: TDatasource;
+    FLastTabIndex: Integer;
     procedure InitQueryesAndLookupComboBoxes();
     function VerificateUserInput(CalculationType: String): Boolean;
     function GetDeltaPp(const idCounter: Integer; const Qp: Extended):Extended;
@@ -168,7 +170,7 @@ var
 
 implementation
 uses
-  Connection;
+  Connection, ShellApi;
 
 {$R *.dfm}
 
@@ -685,6 +687,7 @@ begin
 //      pcMain.TabIndex := 0;
 //      ShowPageControlTab(0);
 //    end;
+  FLastTabIndex := TabIndex;
 end;
 
 function TfmMain.VerificateUserInput(CalculationType: String): Boolean;
@@ -990,7 +993,19 @@ begin
   SMB.Validators.KeyPressFloat(Key);
 end;
 procedure TfmMain.pcMainChange(Sender: TObject);
+var
+  ErrorMsg: HINST;
 begin
-  ShowPageControlTab(pcMain.TabIndex);
+  if pcMain.TabIndex = 3 then
+  begin
+    ErrorMsg := ShellExecute(0,'Open',pchar(ExtractFilePath(Application.Exename) +
+      '\Instruction.doc'), nil ,nil,1);
+    if ErrorMsg = ERROR_FILE_NOT_FOUND then
+      MessageDlg('В папке с программой файл с инструкцией не найден!', mtError, [mbOK], 0);
+
+    pcMain.TabIndex := FLastTabIndex;
+  end
+  else
+    ShowPageControlTab(pcMain.TabIndex);
 end;
 end.

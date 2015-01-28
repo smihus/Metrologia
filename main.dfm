@@ -489,6 +489,10 @@ object fmMain: TfmMain
         end
       end
     end
+    object tsInstruction: TTabSheet
+      Caption = #1048#1085#1089#1090#1088#1091#1082#1094#1080#1103
+      ImageIndex = 3
+    end
   end
   object mainConnection: TADOConnection
     LoginPrompt = False
